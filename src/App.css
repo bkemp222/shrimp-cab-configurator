@@ -188,32 +188,6 @@ body {
   scrollbar-width: none;
 }
 
-.button-grid::before {
-  content: "‹";
-  position: absolute;
-  left: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #ff505c;
-  font-size: 34px;
-  font-weight: 700;
-  pointer-events: none;
-  opacity: .8;
-}
-
-.button-grid::after {
-  content: "›";
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #ff505c;
-  font-size: 34px;
-  font-weight: 700;
-  pointer-events: none;
-  opacity: .8;
-}
-
 .button-grid::-webkit-scrollbar {
   display: none;
 }
