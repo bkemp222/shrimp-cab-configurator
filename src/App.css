@@ -99,6 +99,21 @@ body {
   overflow-x: hidden;
 }
 
+.builder-logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+
+.builder-logo img {
+  width: min(250px, 60vw);
+  height: auto;
+  display: block;
+
+  filter:
+    drop-shadow(0 8px 16px rgba(0,0,0,.12));
+}
+
 .product-info {
   text-align: center;
   margin-bottom: 18px;
