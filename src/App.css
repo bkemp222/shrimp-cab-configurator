@@ -224,7 +224,7 @@ body {
 
   .stage,
   .cab-overlay {
-    width: 135%;
+    width: 100vw;
     height: auto;
     max-width: none;
     left: 50%;
