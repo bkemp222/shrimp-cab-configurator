@@ -4,8 +4,8 @@
 
 body {
   margin: 0;
-  background: #070707;
-  color: white;
+  background: #f0eee9;
+  color: #111;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -15,6 +15,7 @@ body {
   overflow: hidden;
   display: grid;
   place-items: center;
+  background: #f0eee9;
 }
 
 .start-bg {
@@ -32,6 +33,7 @@ body {
   border: 0;
   cursor: pointer;
   animation: blink 1.6s infinite;
+  transform: translateY(38vh);
 }
 
 .press-start img {
@@ -52,7 +54,7 @@ body {
   min-height: 100vh;
   display: grid;
   grid-template-rows: 1fr auto;
-  background: #080808;
+  background: #f0eee9;
 }
 
 .viewer {
@@ -60,7 +62,7 @@ body {
   min-height: 60vh;
   display: grid;
   place-items: center;
-  background: #111;
+  background: #f0eee9;
   overflow: hidden;
 }
 
@@ -73,8 +75,7 @@ body {
 }
 
 .menu {
-  background: #191919;
-  border-top: 2px solid #333;
+  background: #f0eee9;
   padding: 16px 24px 20px;
 }
 
@@ -98,29 +99,42 @@ body {
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #d8d8d8;
+  color: #111;
   text-align: center;
 }
 
 .button-grid {
   display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  padding: 6px 0 10px;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
+  scrollbar-width: thin;
+}
+
+.button-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.button-grid::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 999px;
 }
 
 .image-button,
 .locked-icon {
-  background: #252525;
-  color: white;
-  border: 1px solid #444;
-  border-radius: 10px;
-  padding: 6px;
+  background: transparent;
+  color: #111;
+  border: 0;
+  padding: 0;
   min-width: 112px;
   height: 70px;
   display: grid;
   place-items: center;
   text-align: center;
+  flex: 0 0 auto;
 }
 
 .image-button {
@@ -128,11 +142,11 @@ body {
 }
 
 .image-button:hover {
-  border-color: white;
+  opacity: 0.8;
 }
 
 .image-button.selected {
-  border-color: #ffcc33;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.35));
 }
 
 .image-button img,
@@ -160,8 +174,8 @@ body {
   padding: 14px;
   border: 0;
   border-radius: 12px;
-  background: #ffcc33;
-  color: #111;
+  background: #111;
+  color: #f0eee9;
   font-size: 18px;
   font-weight: 900;
   cursor: pointer;
@@ -182,47 +196,25 @@ body {
   justify-content: space-between;
   gap: 12px;
   padding: 8px 0;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #bbb;
   font-size: 13px;
 }
 
-@media (max-height: 800px) {
-  .viewer {
-    min-height: 52vh;
-  }
-
-  .image-button,
-  .locked-icon {
-    height: 60px;
-    min-width: 100px;
-  }
-
-  .image-button img,
-  .locked-icon img {
-    width: 90px;
-    max-height: 34px;
-  }
-
-  .price {
-    font-size: 24px;
-  }
-
-  .menu {
-    padding: 12px 18px 16px;
-  }
-}
-
 @media (max-width: 700px) {
+  .button-grid {
+    justify-content: flex-start;
+  }
+
+  .press-start {
+    transform: translateY(34vh);
+  }
+
   .viewer {
     min-height: 48vh;
   }
 
   .menu {
     padding: 14px;
-  }
-
-  .button-grid {
-    gap: 6px;
   }
 
   .image-button,
