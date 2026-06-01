@@ -248,7 +248,7 @@ body {
   }
 
   .button-grid {
-    justify-content: flex-start;
+    justify-content: center;
     gap: 12px;
     padding-left: 8px;
     padding-right: 8px;
