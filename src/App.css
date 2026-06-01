@@ -2,6 +2,14 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   background: #f0eee9;
@@ -33,7 +41,7 @@ body {
   border: 0;
   cursor: pointer;
   animation: blink 1.6s infinite;
-  transform: translateY(38vh);
+  transform: translateY(36vh);
 }
 
 .press-start img {
@@ -51,17 +59,17 @@ body {
 }
 
 .app {
+  width: 100%;
   min-height: 100vh;
-  display: grid;
-  grid-template-rows: 1fr auto;
   background: #f0eee9;
+  overflow-x: hidden;
 }
 
 .viewer {
   position: relative;
-  min-height: 60vh;
-  display: grid;
-  place-items: center;
+  width: 100%;
+  height: 56vh;
+  min-height: 360px;
   background: #f0eee9;
   overflow: hidden;
 }
@@ -69,14 +77,19 @@ body {
 .stage,
 .cab-overlay {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
 .menu {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
   background: #f0eee9;
-  padding: 16px 24px 20px;
+  padding: 12px 18px 24px;
+  overflow-x: hidden;
 }
 
 .menu h1 {
@@ -87,10 +100,11 @@ body {
   font-size: 28px;
   font-weight: 900;
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .option-group {
+  width: 100%;
   margin-bottom: 14px;
 }
 
@@ -104,12 +118,13 @@ body {
 }
 
 .button-grid {
+  width: 100%;
   display: flex;
   gap: 14px;
   overflow-x: auto;
   overflow-y: hidden;
   flex-wrap: nowrap;
-  padding: 6px 0 10px;
+  padding: 6px 8px 10px;
   justify-content: center;
   scrollbar-width: thin;
 }
@@ -129,12 +144,13 @@ body {
   color: #111;
   border: 0;
   padding: 0;
+  width: 112px;
   min-width: 112px;
   height: 70px;
   display: grid;
   place-items: center;
   text-align: center;
-  flex: 0 0 auto;
+  flex: 0 0 112px;
 }
 
 .image-button {
@@ -201,30 +217,45 @@ body {
 }
 
 @media (max-width: 700px) {
-  .button-grid {
-    justify-content: flex-start;
-  }
-
-  .press-start {
-    transform: translateY(34vh);
-  }
-
   .viewer {
-    min-height: 48vh;
+    height: 44vh;
+    min-height: 300px;
   }
 
   .menu {
-    padding: 14px;
+    padding: 10px 12px 24px;
+  }
+
+  .price {
+    font-size: 24px;
+  }
+
+  .option-group h2 {
+    font-size: 12px;
+  }
+
+  .button-grid {
+    justify-content: flex-start;
+    gap: 12px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
 
   .image-button,
   .locked-icon {
-    min-width: 92px;
-    height: 60px;
+    width: 96px;
+    min-width: 96px;
+    height: 64px;
+    flex-basis: 96px;
   }
 
   .image-button img,
   .locked-icon img {
-    width: 82px;
+    width: 86px;
+    max-height: 38px;
+  }
+
+  .press-start {
+    transform: translateY(34vh);
   }
 }
