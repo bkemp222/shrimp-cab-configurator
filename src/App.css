@@ -102,13 +102,15 @@ body {
 .builder-logo {
   display: flex;
   justify-content: center;
-  margin-bottom: 22px;
+  padding-top: 12px;
+  margin-bottom: -10px;
 }
 
 .builder-logo img {
-  width: min(70px, 30vw);
+  width: min(280px, 65vw);
   height: auto;
   display: block;
+
 
   filter:
     drop-shadow(0 8px 16px rgba(0,0,0,.12));
