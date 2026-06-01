@@ -41,7 +41,7 @@ body {
   border: 0;
   cursor: pointer;
   animation: blink 1.6s infinite;
-  transform: translateY(38vh);
+  transform: translateY(20vh);
 }
 
 .press-start img {
@@ -292,7 +292,7 @@ body {
 
   .stage,
   .cab-overlay {
-    width: 135%;
+    width: 100vw;
     height: auto;
     max-width: none;
     left: 50%;
