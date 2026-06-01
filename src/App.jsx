@@ -99,8 +99,14 @@ export default function App() {
       </section>
 
       <section className="menu">
+<div className="builder-logo">
+  <img
+    src="/logo/build_your_shrimp_logo.png"
+    alt="Build Your Shrimp"
+  />
+</div>
         <div className="product-info">
-          <div className="brand-kicker">Shrimp Cab Co.</div>
+      
           <h1>
             {selectedSize.label} {selectedLivery.label} {selectedColorway.label}
           </h1>
