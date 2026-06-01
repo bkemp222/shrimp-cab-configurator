@@ -63,10 +63,6 @@ body {
   pointer-events: none;
 }
 
-.render-loading {
-  opacity: 0.35;
-}
-
 .menu {
   width: 100%;
   max-width: 980px;
@@ -292,8 +288,7 @@ body {
     top: 50%;
     right: auto;
     bottom: auto;
-    --render-transform: translate(-50%, -50%);
-    transform: var(--render-transform);
+    transform: translate(-50%, -50%);
     object-fit: contain;
   }
 
