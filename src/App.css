@@ -106,7 +106,7 @@ body {
 }
 
 .builder-logo img {
-  width: min(250px, 60vw);
+  width: min(70px, 30vw);
   height: auto;
   display: block;
 
