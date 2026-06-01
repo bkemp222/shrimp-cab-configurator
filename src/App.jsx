@@ -23,15 +23,15 @@ const colorways = [
   { id: "grateful", label: "Grateful", price: 100, liveries: ["shock"] },
 ];
 
-function buttonPath(type, id, active) {
+function buttonPath(id, active) {
   return `/ui/buttons/${id}_${active ? "active" : "idle"}.png`;
 }
 
 export default function App() {
   const [started, setStarted] = useState(false);
-  const [size, setSize] = useState(null);
-  const [livery, setLivery] = useState(null);
-  const [colorway, setColorway] = useState(null);
+  const [size, setSize] = useState("112");
+  const [livery, setLivery] = useState("tiger");
+  const [colorway, setColorway] = useState("bigcat");
   const [cart, setCart] = useState([]);
 
   const selectedSize = cabSizes.find((item) => item.id === size);
@@ -39,7 +39,6 @@ export default function App() {
   const selectedColorway = colorways.find((item) => item.id === colorway);
 
   const validColorways = useMemo(() => {
-    if (!livery) return colorways;
     return colorways.filter((item) => item.liveries.includes(livery));
   }, [livery]);
 
@@ -56,21 +55,19 @@ export default function App() {
   function chooseLivery(nextLivery) {
     setLivery(nextLivery);
 
-    const stillValid = colorway
-      ? colorways.find((cw) => cw.id === colorway)?.liveries.includes(nextLivery)
-      : false;
+    const currentStillValid = colorways
+      .find((cw) => cw.id === colorway)
+      ?.liveries.includes(nextLivery);
 
-    if (!stillValid) {
-      setColorway(null);
+    if (!currentStillValid) {
+      const firstValidColorway = colorways.find((cw) =>
+        cw.liveries.includes(nextLivery)
+      );
+      setColorway(firstValidColorway.id);
     }
   }
 
   function finalizeCab() {
-    if (!size || !livery || !colorway) {
-      alert("Select cab size, livery, and colorway first.");
-      return;
-    }
-
     const item = {
       size: selectedSize.label,
       livery: selectedLivery.label,
@@ -112,13 +109,23 @@ export default function App() {
         )}
       </section>
 
-      <aside className="menu">
-        <h1>Shrimp Cab Configurator</h1>
+      <section className="menu">
+        <div className="product-info">
+          <div className="brand-kicker">Shrimp Cab Co.</div>
+          <h1>
+            {selectedSize.label} {selectedLivery.label} {selectedColorway.label}
+          </h1>
+          <div className="price">${price.toLocaleString()}</div>
 
-        <div className="price">${price.toLocaleString()}</div>
+          <div className="spec-row">
+            <span>Hand Built</span>
+            <span>Baltic Birch</span>
+            <span>Made in Georgia</span>
+          </div>
+        </div>
 
         <section className="option-group">
-          <h2>1. Select Cab Size</h2>
+          <h2><span>Cab Size</span></h2>
           <div className="button-grid">
             {cabSizes.map((item) => (
               <button
@@ -134,15 +141,15 @@ export default function App() {
         </section>
 
         <section className="option-group">
-          <h2>2. Select Livery</h2>
+          <h2><span>Livery</span></h2>
           <div className="button-grid">
             {liveries.map((item) => (
               <button
                 key={item.id}
-                className="image-button"
+                className={`image-button ${livery === item.id ? "selected" : ""}`}
                 onClick={() => chooseLivery(item.id)}
               >
-                <img src={buttonPath("livery", item.id, livery === item.id)} alt={item.label} />
+                <img src={buttonPath(item.id, livery === item.id)} alt={item.label} />
                 <span>
                   {item.label}
                   {item.price > 0 ? ` — +$${item.price}` : ""}
@@ -152,21 +159,21 @@ export default function App() {
 
             <div className="locked-icon">
               <img src="/ui/buttons/locked.png" alt="Locked" />
-              <span>More coming soon</span>
+              <span>More coming</span>
             </div>
           </div>
         </section>
 
         <section className="option-group">
-          <h2>3. Select Colorway</h2>
+          <h2><span>Colorway</span></h2>
           <div className="button-grid">
             {validColorways.map((item) => (
               <button
                 key={item.id}
-                className="image-button"
+                className={`image-button ${colorway === item.id ? "selected" : ""}`}
                 onClick={() => setColorway(item.id)}
               >
-                <img src={buttonPath("colorway", item.id, colorway === item.id)} alt={item.label} />
+                <img src={buttonPath(item.id, colorway === item.id)} alt={item.label} />
                 <span>
                   {item.label}
                   {item.price > 0 ? ` — +$${item.price}` : ""}
@@ -191,7 +198,7 @@ export default function App() {
             ))}
           </section>
         )}
-      </aside>
+      </section>
     </main>
   );
 }
