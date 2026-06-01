@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import "./App.css";
 
 const cabSizes = [
@@ -34,6 +34,9 @@ export default function App() {
   const [colorway, setColorway] = useState("bigcat");
   const [cart, setCart] = useState([]);
 
+  const [visibleOverlay, setVisibleOverlay] = useState("");
+const [overlayVisible, setOverlayVisible] = useState(true);
+
   const selectedSize = cabSizes.find((item) => item.id === size);
   const selectedLivery = liveries.find((item) => item.id === livery);
   const selectedColorway = colorways.find((item) => item.id === colorway);
@@ -42,10 +45,23 @@ export default function App() {
     return colorways.filter((item) => item.liveries.includes(livery));
   }, [livery]);
 
-  const overlayPath =
-    size && livery && colorway
-      ? `/overlays/${size}_${livery}_${colorway}.png`
-      : null;
+const overlayPath =
+  size && livery && colorway
+    ? `/overlays/${size}_${livery}_${colorway}.png`
+    : "";
+
+useEffect(() => {
+  if (!overlayPath) return;
+
+  setOverlayVisible(false);
+
+  const timeout = setTimeout(() => {
+    setVisibleOverlay(overlayPath);
+    setOverlayVisible(true);
+  }, 150);
+
+  return () => clearTimeout(timeout);
+}, [overlayPath]);
 
   const price =
     (selectedSize?.price || 0) +
@@ -95,13 +111,13 @@ export default function App() {
           alt="Cab stage"
         />
 
-        {overlayPath && (
-          <img
-            className="cab-overlay"
-            src={overlayPath}
-            alt={`${selectedSize.label} ${selectedLivery.label} ${selectedColorway.label}`}
-          />
-        )}
+        {visibleOverlay && (
+  <img
+    className={`cab-overlay ${overlayVisible ? "visible" : "hidden"}`}
+    src={visibleOverlay}
+    alt={`${selectedSize.label} ${selectedLivery.label} ${selectedColorway.label}`}
+  />
+)}
       </section>
 
       <section className="menu">
