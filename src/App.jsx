@@ -79,6 +79,12 @@ export default function App() {
     alert(`${item.size} ${item.livery} ${item.colorway} added to cart.`);
   }
 
+  <div className="builder-logo">
+  <img
+    src="/logo/build_your_shrimp_logo.png"
+    alt="Build Your Shrimp"
+  />
+</div>
 
   return (
     <main className="app">
@@ -99,12 +105,6 @@ export default function App() {
       </section>
 
       <section className="menu">
-<div className="builder-logo">
-  <img
-    src="/logo/build_your_shrimp_logo.png"
-    alt="Build Your Shrimp"
-  />
-</div>
         <div className="product-info">
       
           <h1>
