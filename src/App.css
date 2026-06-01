@@ -304,7 +304,7 @@ body {
 @media (max-width: 700px) {
   .viewer {
     height: 52vh;
-    min-height: 360px;
+    min-height: 400px;
   }
 
   .stage,
