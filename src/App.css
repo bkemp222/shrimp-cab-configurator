@@ -341,12 +341,14 @@ body {
     gap: 9px;
   }
 
-  .button-grid {
-    justify-content: center;
-    gap: 14px;
-    padding-left: 8px;
-    padding-right: 8px;
-  }
+ .button-grid {
+  justify-content: flex-start;
+  gap: 14px;
+  padding-left: 24px;
+  padding-right: 24px;
+  scroll-padding-left: 24px;
+  scroll-padding-right: 24px;
+}
 
   .image-button,
   .locked-icon {
