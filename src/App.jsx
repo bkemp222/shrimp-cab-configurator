@@ -79,15 +79,15 @@ export default function App() {
     alert(`${item.size} ${item.livery} ${item.colorway} added to cart.`);
   }
 
-  <div className="builder-logo">
+
+  return (
+    <main className="app">
+      <div className="builder-logo">
   <img
     src="/logo/build_your_shrimp_logo.png"
     alt="Build Your Shrimp"
   />
 </div>
-
-  return (
-    <main className="app">
       <section className="viewer">
         <img
           className="stage"
