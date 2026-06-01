@@ -41,7 +41,7 @@ body {
   border: 0;
   cursor: pointer;
   animation: blink 1.6s infinite;
-  transform: translateY(20vh);
+  transform: translateY(30vh);
 }
 
 .press-start img {
@@ -368,6 +368,6 @@ body {
   }
 
   .press-start {
-    transform: translateY(38vh);
+    transform: translateY(25vh);
   }
 }
