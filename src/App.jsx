@@ -79,17 +79,6 @@ export default function App() {
     alert(`${item.size} ${item.livery} ${item.colorway} added to cart.`);
   }
 
-  if (!started) {
-    return (
-      <main className="start-screen">
-        <img src="/empty/start_screen.jpg" className="start-bg" alt="Shrimp Cab start screen" />
-
-        <button className="press-start" onClick={() => setStarted(true)}>
-          <img src="/ui/buttons/press_start.png" alt="Press Start" />
-        </button>
-      </main>
-    );
-  }
 
   return (
     <main className="app">
