@@ -126,7 +126,10 @@ export default function App() {
 
         <section className="option-group">
           <h2><span>Cab Size</span></h2>
-          <div className="button-grid">
+          <div className="scroll-row">
+  <div className="scroll-arrow left">‹</div>
+
+  <div className="button-grid">
             {cabSizes.map((item) => (
               <button
                 key={item.id}
@@ -137,12 +140,18 @@ export default function App() {
                 <span>{item.label} — ${item.price}</span>
               </button>
             ))}
-          </div>
+            </div>
+
+  <div className="scroll-arrow right">›</div>
+</div>
         </section>
 
         <section className="option-group">
           <h2><span>Livery</span></h2>
-          <div className="button-grid">
+          <div className="scroll-row">
+  <div className="scroll-arrow left">‹</div>
+
+  <div className="button-grid">
             {liveries.map((item) => (
               <button
                 key={item.id}
@@ -161,12 +170,18 @@ export default function App() {
               <img src="/ui/buttons/locked.png" alt="Locked" />
               <span>More coming</span>
             </div>
-          </div>
+            </div>
+
+  <div className="scroll-arrow right">›</div>
+</div>
         </section>
 
         <section className="option-group">
           <h2><span>Colorway</span></h2>
-          <div className="button-grid">
+          <div className="scroll-row">
+  <div className="scroll-arrow left">‹</div>
+
+  <div className="button-grid">
             {validColorways.map((item) => (
               <button
                 key={item.id}
@@ -180,7 +195,10 @@ export default function App() {
                 </span>
               </button>
             ))}
-          </div>
+            </div>
+
+  <div className="scroll-arrow right">›</div>
+</div>
         </section>
 
         <button className="finalize" onClick={finalizeCab}>
