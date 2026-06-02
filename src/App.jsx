@@ -461,7 +461,7 @@ function finalizeCab() {
         </section>
 
         <button className="finalize" onClick={finalizeCab}>
-          Checkout
+          Go to Checkout
         </button>
 
         {cart.length > 0 && (
