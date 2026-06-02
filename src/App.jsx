@@ -1,72 +1,227 @@
-import { useMemo, useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
+const EMPTY_STAGE = "/empty/stage_empty.jpg";
+const LOADING_SHRIMP = "/ui/loading/loading_shrimp.png";
+const BUILDER_LOGO = "/logo/build_your_shrimp_logo.png";
+
+const loadingPhrases = [
+  "Cutting Tolex…",
+  "Reloading Staple Gun…",
+  "Spilling Glue…",
+  "Looking for pencil…",
+  "Reticulating Splines…",
+  "Drinking Coffee…",
+];
+
 const cabSizes = [
-  { id: "112", label: "1x12", price: 950, base: "/base/112_base.jpg", button: "/ui/buttons/112.png" },
-  { id: "212", label: "2x12", price: 1250, base: "/base/212_base.jpg", button: "/ui/buttons/212.png" },
-  { id: "412", label: "4x12", price: 1650, base: "/base/412_base.jpg", button: "/ui/buttons/412.png" },
+  {
+    id: "112",
+    label: "1x12",
+    base: "/base/112_base.jpg",
+    button: "/ui/buttons/112.png",
+    loadedPrice: 695,
+    unloadedPrice: 595,
+    loadedDescription: "G12M-65 Creamback",
+  },
+  {
+    id: "212",
+    label: "2x12",
+    base: "/base/212_base.jpg",
+    button: "/ui/buttons/212.png",
+    loadedPrice: 1095,
+    unloadedPrice: 895,
+    loadedDescription: "Dual G12M-65 Creamback",
+  },
+  {
+    id: "412",
+    label: "4x12",
+    base: "/base/412_base.jpg",
+    button: "/ui/buttons/412.png",
+    loadedPrice: 1595,
+    unloadedPrice: 1195,
+    loadedDescription: "V30 x Creamback Cross Pattern",
+  },
 ];
 
 const liveries = [
-  { id: "tiger", label: "Tiger", price: 0 },
-  { id: "nitro", label: "Nitro", price: 0 },
-  { id: "shock", label: "Shock", price: 150 },
+  { id: "tiger", label: "Tiger" },
+  { id: "nitro", label: "Nitro" },
+  { id: "shock", label: "Shock" },
 ];
 
 const colorways = [
-  { id: "bigcat", label: "Big Cat", price: 0, liveries: ["tiger", "nitro"] },
-  { id: "badkitty", label: "Bad Kitty", price: 0, liveries: ["tiger", "nitro"] },
-  { id: "miami", label: "Miami", price: 0, liveries: ["tiger", "nitro"] },
-  { id: "dig", label: "Dig", price: 0, liveries: ["tiger", "nitro"] },
-  { id: "mania", label: "Mania", price: 0, liveries: ["tiger", "nitro"] },
-  { id: "marley", label: "Marley", price: 100, liveries: ["shock"] },
-  { id: "grateful", label: "Grateful", price: 100, liveries: ["shock"] },
+  { id: "bigcat", label: "Big Cat", liveries: ["tiger", "nitro"] },
+  { id: "badkitty", label: "Bad Kitty", liveries: ["tiger", "nitro"] },
+  { id: "miami", label: "Miami", liveries: ["tiger", "nitro"] },
+  { id: "dig", label: "Dig", liveries: ["tiger", "nitro"] },
+  { id: "mania", label: "Mania", liveries: ["tiger", "nitro"] },
+  { id: "marley", label: "Marley", liveries: ["shock"] },
+  { id: "grateful", label: "Grateful", liveries: ["shock"] },
 ];
+
+const speakerOptions = [
+  {
+    id: "loaded",
+    label: "Loaded",
+    idleButton: "/ui/buttons/loaded_idle.png",
+    activeButton: "/ui/buttons/loaded_active.png",
+  },
+  {
+    id: "unloaded",
+    label: "Unloaded",
+    idleButton: "/ui/buttons/unloaded_Idle.png",
+    activeButton: "/ui/buttons/unloaded_active.png",
+  },
+];
+
+const casterOption = {
+  id: "casters",
+  label: "Casters",
+  price: 100,
+  idleButton: "/ui/buttons/casters_idle.png",
+  activeButton: "/ui/buttons/casters_active.png",
+};
 
 function buttonPath(id, active) {
   return `/ui/buttons/${id}_${active ? "active" : "idle"}.png`;
 }
 
+function overlayFor(size, livery, colorway) {
+  return `/overlays/${size}_${livery}_${colorway}.png`;
+}
+
+function getAllAssetPaths() {
+  const overlayPaths = [];
+
+  cabSizes.forEach((size) => {
+    liveries.forEach((livery) => {
+      colorways.forEach((colorway) => {
+        if (colorway.liveries.includes(livery.id)) {
+          overlayPaths.push(overlayFor(size.id, livery.id, colorway.id));
+        }
+      });
+    });
+  });
+
+  return [
+    EMPTY_STAGE,
+    LOADING_SHRIMP,
+    BUILDER_LOGO,
+    "/ui/buttons/locked.png",
+
+    ...cabSizes.map((item) => item.base),
+    ...cabSizes.map((item) => item.button),
+
+    ...liveries.flatMap((item) => [
+      buttonPath(item.id, false),
+      buttonPath(item.id, true),
+    ]),
+
+    ...colorways.flatMap((item) => [
+      buttonPath(item.id, false),
+      buttonPath(item.id, true),
+    ]),
+
+    ...speakerOptions.flatMap((item) => [
+      item.idleButton,
+      item.activeButton,
+    ]),
+
+    casterOption.idleButton,
+    casterOption.activeButton,
+
+    ...overlayPaths,
+  ];
+}
+
 export default function App() {
-  const [started, setStarted] = useState(false);
+  const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [loadingPhraseIndex, setLoadingPhraseIndex] = useState(0);
+
   const [size, setSize] = useState("112");
   const [livery, setLivery] = useState("tiger");
   const [colorway, setColorway] = useState("bigcat");
+  const [speaker, setSpeaker] = useState("loaded");
+  const [casters, setCasters] = useState(false);
   const [cart, setCart] = useState([]);
 
-  const [visibleOverlay, setVisibleOverlay] = useState("");
-const [overlayVisible, setOverlayVisible] = useState(true);
+  const [isChangingSize, setIsChangingSize] = useState(false);
 
   const selectedSize = cabSizes.find((item) => item.id === size);
   const selectedLivery = liveries.find((item) => item.id === livery);
   const selectedColorway = colorways.find((item) => item.id === colorway);
+  const selectedSpeaker = speakerOptions.find((item) => item.id === speaker);
 
   const validColorways = useMemo(() => {
     return colorways.filter((item) => item.liveries.includes(livery));
   }, [livery]);
 
-const overlayPath =
-  size && livery && colorway
-    ? `/overlays/${size}_${livery}_${colorway}.png`
-    : "";
+  const overlayPath = overlayFor(size, livery, colorway);
 
-useEffect(() => {
-  if (!overlayPath) return;
+  const stageImage = isChangingSize ? EMPTY_STAGE : selectedSize.base;
+  const showOverlay = !isChangingSize && overlayPath;
 
-  setOverlayVisible(false);
+  const basePrice =
+    speaker === "loaded"
+      ? selectedSize.loadedPrice
+      : selectedSize.unloadedPrice;
 
-  const timeout = setTimeout(() => {
-    setVisibleOverlay(overlayPath);
-    setOverlayVisible(true);
-  }, 150);
+  const casterPrice = casters && size !== "112" ? casterOption.price : 0;
+  const price = basePrice + casterPrice;
 
-  return () => clearTimeout(timeout);
-}, [overlayPath]);
+  useEffect(() => {
+    const phraseTimer = setInterval(() => {
+      setLoadingPhraseIndex((current) => (current + 1) % loadingPhrases.length);
+    }, 900);
 
-  const price =
-    (selectedSize?.price || 0) +
-    (selectedLivery?.price || 0) +
-    (selectedColorway?.price || 0);
+    const assetPaths = [...new Set(getAllAssetPaths())];
+
+    let loadedCount = 0;
+    let finished = false;
+
+    function markLoaded() {
+      loadedCount += 1;
+
+      if (!finished && loadedCount >= assetPaths.length) {
+        finished = true;
+
+        setTimeout(() => {
+          setAssetsLoaded(true);
+          clearInterval(phraseTimer);
+        }, 350);
+      }
+    }
+
+    assetPaths.forEach((path) => {
+      const img = new Image();
+      img.onload = markLoaded;
+      img.onerror = markLoaded;
+      img.src = path;
+    });
+
+    return () => {
+      finished = true;
+      clearInterval(phraseTimer);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (size === "112" && casters) {
+      setCasters(false);
+    }
+  }, [size, casters]);
+
+  function chooseSize(nextSize) {
+    if (nextSize === size || isChangingSize) return;
+
+    setIsChangingSize(true);
+
+    setTimeout(() => {
+      setSize(nextSize);
+      setIsChangingSize(false);
+    }, 220);
+  }
 
   function chooseLivery(nextLivery) {
     setLivery(nextLivery);
@@ -79,7 +234,10 @@ useEffect(() => {
       const firstValidColorway = colorways.find((cw) =>
         cw.liveries.includes(nextLivery)
       );
-      setColorway(firstValidColorway.id);
+
+      if (firstValidColorway) {
+        setColorway(firstValidColorway.id);
+      }
     }
   }
 
@@ -88,128 +246,223 @@ useEffect(() => {
       size: selectedSize.label,
       livery: selectedLivery.label,
       colorway: selectedColorway.label,
+      speaker: selectedSpeaker.label,
+      casters: casters && size !== "112",
       price,
     };
 
     setCart([...cart, item]);
-    alert(`${item.size} ${item.livery} ${item.colorway} added to cart.`);
+
+    alert(
+      `${item.size} ${item.livery} ${item.colorway} ${item.speaker}${
+        item.casters ? " with Casters" : ""
+      } added to cart.`
+    );
   }
 
+  if (!assetsLoaded) {
+    return (
+      <main className="loading-screen">
+        <div className="loading-card">
+          <img
+            className="loading-shrimp"
+            src={LOADING_SHRIMP}
+            alt="Loading Shrimp Cab configurator"
+          />
+
+          <div className="loading-phrase">
+            {loadingPhrases[loadingPhraseIndex]}
+          </div>
+
+          <div className="loading-bar">
+            <div className="loading-bar-fill" />
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="app">
       <div className="builder-logo">
-  <img
-    src="/logo/build_your_shrimp_logo.png"
-    alt="Build Your Shrimp"
-  />
-</div>
-      <section className="viewer">
-        <img
-          className="stage"
-          src={selectedSize ? selectedSize.base : "/empty/stage_empty.jpg"}
-          alt="Cab stage"
-        />
+        <img src={BUILDER_LOGO} alt="Build Your Shrimp" />
+      </div>
 
-        {visibleOverlay && (
-  <img
-    className={`cab-overlay ${overlayVisible ? "visible" : "hidden"}`}
-    src={visibleOverlay}
-    alt={`${selectedSize.label} ${selectedLivery.label} ${selectedColorway.label}`}
-  />
-)}
+      <section className="viewer">
+        <img className="stage" src={stageImage} alt="Cab stage" />
+
+        {showOverlay && (
+          <img
+            key={overlayPath}
+            className="cab-overlay"
+            src={overlayPath}
+            alt={`${selectedSize.label} ${selectedLivery.label} ${selectedColorway.label}`}
+          />
+        )}
       </section>
 
       <section className="menu">
         <div className="product-info">
-      
           <h1>
             {selectedSize.label} {selectedLivery.label} {selectedColorway.label}
           </h1>
+
           <div className="price">${price.toLocaleString()}</div>
 
           <div className="spec-row">
-            <span>Hand Built</span>
-            <span>Baltic Birch</span>
-            <span>Made in Georgia</span>
+            <span>{speaker === "loaded" ? "Loaded" : "Unloaded"}</span>
+            <span>{speaker === "loaded" ? selectedSize.loadedDescription : "Speaker Ready"}</span>
+            <span>{casters && size !== "112" ? "Casters Added" : "Made in Georgia"}</span>
           </div>
         </div>
 
         <section className="option-group">
           <h2><span>Cab Size</span></h2>
-          <div className="scroll-row">
-  <div className="scroll-arrow left">‹</div>
 
-  <div className="button-grid">
-            {cabSizes.map((item) => (
-              <button
-                key={item.id}
-                className={`image-button ${size === item.id ? "selected" : ""}`}
-                onClick={() => setSize(item.id)}
-              >
-                <img src={item.button} alt={item.label} />
-                <span>{item.label} — ${item.price}</span>
-              </button>
-            ))}
+          <div className="scroll-row">
+            <div className="scroll-arrow left">‹</div>
+
+            <div className="button-grid">
+              {cabSizes.map((item) => (
+                <button
+                  key={item.id}
+                  className={`image-button ${size === item.id ? "selected" : ""}`}
+                  onClick={() => chooseSize(item.id)}
+                >
+                  <img src={item.button} alt={item.label} />
+                  <span>
+                    {item.label} — $
+                    {(speaker === "loaded"
+                      ? item.loadedPrice
+                      : item.unloadedPrice
+                    ).toLocaleString()}
+                  </span>
+                </button>
+              ))}
             </div>
 
-  <div className="scroll-arrow right">›</div>
-</div>
+            <div className="scroll-arrow right">›</div>
+          </div>
         </section>
 
         <section className="option-group">
           <h2><span>Livery</span></h2>
+
           <div className="scroll-row">
-  <div className="scroll-arrow left">‹</div>
+            <div className="scroll-arrow left">‹</div>
 
-  <div className="button-grid">
-            {liveries.map((item) => (
-              <button
-                key={item.id}
-                className={`image-button ${livery === item.id ? "selected" : ""}`}
-                onClick={() => chooseLivery(item.id)}
-              >
-                <img src={buttonPath(item.id, livery === item.id)} alt={item.label} />
-                <span>
-                  {item.label}
-                  {item.price > 0 ? ` — +$${item.price}` : ""}
-                </span>
-              </button>
-            ))}
+            <div className="button-grid">
+              {liveries.map((item) => (
+                <button
+                  key={item.id}
+                  className={`image-button ${livery === item.id ? "selected" : ""}`}
+                  onClick={() => chooseLivery(item.id)}
+                >
+                  <img src={buttonPath(item.id, livery === item.id)} alt={item.label} />
+                  <span>{item.label}</span>
+                </button>
+              ))}
 
-            <div className="locked-icon">
-              <img src="/ui/buttons/locked.png" alt="Locked" />
-              <span>More coming</span>
-            </div>
+              <div className="locked-icon">
+                <img src="/ui/buttons/locked.png" alt="Locked" />
+                <span>More coming</span>
+              </div>
             </div>
 
-  <div className="scroll-arrow right">›</div>
-</div>
+            <div className="scroll-arrow right">›</div>
+          </div>
         </section>
 
         <section className="option-group">
           <h2><span>Colorway</span></h2>
-          <div className="scroll-row">
-  <div className="scroll-arrow left">‹</div>
 
-  <div className="button-grid">
-            {validColorways.map((item) => (
-              <button
-                key={item.id}
-                className={`image-button ${colorway === item.id ? "selected" : ""}`}
-                onClick={() => setColorway(item.id)}
-              >
-                <img src={buttonPath(item.id, colorway === item.id)} alt={item.label} />
-                <span>
-                  {item.label}
-                  {item.price > 0 ? ` — +$${item.price}` : ""}
-                </span>
-              </button>
-            ))}
+          <div className="scroll-row">
+            <div className="scroll-arrow left">‹</div>
+
+            <div className="button-grid">
+              {validColorways.map((item) => (
+                <button
+                  key={item.id}
+                  className={`image-button ${colorway === item.id ? "selected" : ""}`}
+                  onClick={() => setColorway(item.id)}
+                >
+                  <img src={buttonPath(item.id, colorway === item.id)} alt={item.label} />
+                  <span>{item.label}</span>
+                </button>
+              ))}
+
+              <div className="locked-icon">
+                <img src="/ui/buttons/locked.png" alt="Locked" />
+                <span>More coming</span>
+              </div>
             </div>
 
-  <div className="scroll-arrow right">›</div>
-</div>
+            <div className="scroll-arrow right">›</div>
+          </div>
+        </section>
+
+        <section className="option-group">
+          <h2><span>Speaker</span></h2>
+
+          <div className="scroll-row">
+            <div className="scroll-arrow left">‹</div>
+
+            <div className="button-grid option-button-grid">
+              {speakerOptions.map((item) => (
+                <button
+                  key={item.id}
+                  className={`image-button ${speaker === item.id ? "selected" : ""}`}
+                  onClick={() => setSpeaker(item.id)}
+                >
+                  <img
+                    src={speaker === item.id ? item.activeButton : item.idleButton}
+                    alt={item.label}
+                  />
+                  <span>
+                    {item.label} — $
+                    {(item.id === "loaded"
+                      ? selectedSize.loadedPrice
+                      : selectedSize.unloadedPrice
+                    ).toLocaleString()}
+                  </span>
+                </button>
+              ))}
+            </div>
+
+            <div className="scroll-arrow right">›</div>
+          </div>
+        </section>
+
+        <section className="option-group">
+          <h2><span>Caster Option</span></h2>
+
+          <div className="scroll-row">
+            <div className="scroll-arrow left">‹</div>
+
+            <div className="button-grid option-button-grid">
+              <button
+                className={`image-button ${casters && size !== "112" ? "selected" : ""} ${
+                  size === "112" ? "disabled-option" : ""
+                }`}
+                disabled={size === "112"}
+                onClick={() => setCasters((current) => !current)}
+              >
+                <img
+                  src={
+                    casters && size !== "112"
+                      ? casterOption.activeButton
+                      : casterOption.idleButton
+                  }
+                  alt={casterOption.label}
+                />
+                <span>
+                  {size === "112" ? "2x12 / 4x12 Only" : "Casters — +$100"}
+                </span>
+              </button>
+            </div>
+
+            <div className="scroll-arrow right">›</div>
+          </div>
         </section>
 
         <button className="finalize" onClick={finalizeCab}>
@@ -219,9 +472,14 @@ useEffect(() => {
         {cart.length > 0 && (
           <section className="cart">
             <h2>Cart</h2>
+
             {cart.map((item, index) => (
               <div key={index} className="cart-item">
-                {item.size} / {item.livery} / {item.colorway}
+                <span>
+                  {item.size} / {item.livery} / {item.colorway} / {item.speaker}
+                  {item.casters ? " / Casters" : ""}
+                </span>
+
                 <strong>${item.price.toLocaleString()}</strong>
               </div>
             ))}
