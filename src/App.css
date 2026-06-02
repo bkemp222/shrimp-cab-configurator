@@ -102,7 +102,7 @@ body {
 }
 
 .builder-logo img {
-  width: min(200px, 55vw);
+  width: min(400px, 55vw);
   height: auto;
   display: block;
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
