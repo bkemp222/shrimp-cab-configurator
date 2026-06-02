@@ -95,10 +95,11 @@ body {
 }
 
 .builder-logo {
-  display: flex;
-  justify-content: center;
-  padding-top: 12px;
-  margin-bottom: 5px;
+  width: 60%;
+  max-width: 700px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
 
 .builder-logo img {
