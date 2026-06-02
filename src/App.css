@@ -33,12 +33,11 @@ body {
 }
 
 .loading-shrimp {
-  width: min(150px, 44vw);
+  width: min(110px, 32vw);
   height: auto;
   display: block;
   margin: 0 auto 20px;
-  animation: shrimpSpin 4s linear infinite;
-  filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.18));
+  animation: shrimpSpin 4s linear infinite reverse;
 }
 
 .loading-phrase {
