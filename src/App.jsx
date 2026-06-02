@@ -253,12 +253,16 @@ export default function App() {
 
     setCart([...cart, item]);
 
-    alert(
-      `${item.size} ${item.livery} ${item.colorway} ${item.speaker}${
-        item.casters ? " with Casters" : ""
-      } added to cart.`
-    );
-  }
+const params = new URLSearchParams({
+  cab: selectedSize.label,
+  livery: selectedLivery.label,
+  colorway: selectedColorway.label,
+  speaker: selectedSpeaker.label,
+  casters: casters && size !== "112" ? "Yes" : "No",
+  price: price.toString(),
+});
+
+window.location.href = `https://www.shrimpcabs.com/store/p/bys?${params.toString()}`;
 
   if (!assetsLoaded) {
     return (
