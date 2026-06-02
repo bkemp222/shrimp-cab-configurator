@@ -95,19 +95,16 @@ body {
 }
 
 .builder-logo {
-  width: 60%;
-  max-width: 300px;
-  height: auto;
-  display: block;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
 }
 
 .builder-logo img {
-  width: 65%;
-  max-width: 65%;
+  width: min(92vw, 600px);
+  max-width: 100%;
   height: auto;
   display: block;
   filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
