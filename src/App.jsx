@@ -360,7 +360,7 @@ function finalizeCab() {
 
               <div className="locked-icon">
                 <img src="/ui/buttons/locked.png" alt="Locked" />
-                <span>More coming</span>
+                <span>Coming Soon</span>
               </div>
             </div>
 
@@ -388,7 +388,7 @@ function finalizeCab() {
 
               <div className="locked-icon">
                 <img src="/ui/buttons/locked.png" alt="Locked" />
-                <span>More coming</span>
+                <span>Coming Soon</span>
               </div>
             </div>
 
@@ -461,7 +461,7 @@ function finalizeCab() {
         </section>
 
         <button className="finalize" onClick={finalizeCab}>
-          Finalize Cab
+          Checkout
         </button>
 
         {cart.length > 0 && (
