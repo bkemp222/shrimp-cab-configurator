@@ -241,28 +241,19 @@ export default function App() {
     }
   }
 
-  function finalizeCab() {
-    const item = {
-      size: selectedSize.label,
-      livery: selectedLivery.label,
-      colorway: selectedColorway.label,
-      speaker: selectedSpeaker.label,
-      casters: casters && size !== "112",
-      price,
-    };
+function finalizeCab() {
+  const params = new URLSearchParams({
+    cab: selectedSize.label,
+    livery: selectedLivery.label,
+    colorway: selectedColorway.label,
+    speaker: selectedSpeaker.label,
+    casters: casters && size !== "112" ? "Yes" : "No",
+    price: price.toString(),
+  });
 
-    setCart([...cart, item]);
-
-const params = new URLSearchParams({
-  cab: selectedSize.label,
-  livery: selectedLivery.label,
-  colorway: selectedColorway.label,
-  speaker: selectedSpeaker.label,
-  casters: casters && size !== "112" ? "Yes" : "No",
-  price: price.toString(),
-});
-
-window.location.href = `https://www.shrimpcabs.com/store/p/bys?${params.toString()}`;
+  window.location.href =
+    `https://www.shrimpcabs.com/store/p/bys?${params.toString()}`;
+}
 
   if (!assetsLoaded) {
     return (
@@ -489,7 +480,7 @@ window.location.href = `https://www.shrimpcabs.com/store/p/bys?${params.toString
             ))}
           </section>
         )}
-      </section>
+  </section>
     </main>
   );
 }
