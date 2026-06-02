@@ -70,7 +70,7 @@ const speakerOptions = [
   {
     id: "unloaded",
     label: "Unloaded",
-    idleButton: "/ui/buttons/unloaded_Idle.png",
+    idleButton: "/ui/buttons/unloaded_idle.png",
     activeButton: "/ui/buttons/unloaded_active.png",
   },
 ];
