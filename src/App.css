@@ -147,7 +147,7 @@ body {
 
 .product-info h1 {
   margin: 0;
-  font-size: clamp(15px, 3vw, 40px);
+  font-size: clamp(10px, 3vw, 40px);
   line-height: 0.95;
   font-weight: 950;
   text-transform: uppercase;
@@ -155,7 +155,7 @@ body {
 }
 
 .price {
-  font-size: clamp(36px, 7vw, 68px);
+  font-size: clamp(8px, 7vw, 68px);
   line-height: 1;
   font-weight: 950;
   text-align: center;
