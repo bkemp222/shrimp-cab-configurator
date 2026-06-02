@@ -247,7 +247,7 @@ function finalizeCab() {
     livery: selectedLivery.label,
     colorway: selectedColorway.label,
     speaker: selectedSpeaker.label,
-    casters: casters && size !== "112" ? "Yes" : "No",
+    casters: casters && size !== "112" ? "CASTERS" : "NO CASTERS",
     price: price.toString(),
   });
 
