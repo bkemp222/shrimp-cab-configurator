@@ -64,9 +64,9 @@ const colorways = [
   { id: "bigcat", label: "Big Cat", liveries: ["tiger", "nitro"] },
   { id: "badkitty", label: "Bad Kitty", liveries: ["tiger", "nitro"] },
   { id: "miami", label: "Miami", liveries: ["tiger", "nitro"] },
-  { id: "dig", label: "Dig", liveries: ["tiger", "nitro"] },
+  { id: "dig", label: "Digger", liveries: ["tiger", "nitro"] },
   { id: "mania", label: "Mania", liveries: ["tiger", "nitro"] },
-  { id: "marley", label: "Marley", liveries: ["shock"] },
+  { id: "marley", label: "Irie", liveries: ["shock"] },
   { id: "grateful", label: "Grateful", liveries: ["shock"] },
 ];
 
