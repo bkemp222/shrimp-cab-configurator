@@ -226,7 +226,7 @@ useEffect(() => {
     img.src = path;
   });
 
-  const failsafeTimer = setTimeout(finishLoading, 5000);
+  const failsafeTimer = setTimeout(finishLoading, 20000);
 
   return () => {
     finished = true;
