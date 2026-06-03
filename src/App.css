@@ -33,7 +33,7 @@ body {
 }
 
 .loading-shrimp {
-  width: min(110px, 32vw);
+  width: min(80px, 32vw);
   height: auto;
   display: block;
   margin: 0 auto 20px;
@@ -464,7 +464,7 @@ body {
 }
 
 .stage {
-  transition: opacity 0.4s ease;
+  transition: opacity 1.25s ease;
 }
 
 @keyframes menuDrop {
@@ -481,4 +481,19 @@ body {
 
 .option-button-grid {
   justify-content: center;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: color 0.2s ease;
+}
+
+.back-button:hover {
+  color: #fff;
 }

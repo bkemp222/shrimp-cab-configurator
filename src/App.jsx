@@ -188,41 +188,52 @@ const [showConfigurator, setShowConfigurator] = useState(false);
   const casterPrice = casters && size !== "112" ? casterOption.price : 0;
   const price = basePrice + casterPrice;
 
-  useEffect(() => {
-    const phraseTimer = setInterval(() => {
-      setLoadingPhraseIndex((current) => (current + 1) % loadingPhrases.length);
-    }, 900);
+useEffect(() => {
+  const phraseTimer = setInterval(() => {
+    setLoadingPhraseIndex((current) => (current + 1) % loadingPhrases.length);
+  }, 900);
 
-    const assetPaths = [...new Set(getAllAssetPaths())];
+  const assetPaths = [...new Set(getAllAssetPaths())];
 
-    let loadedCount = 0;
-    let finished = false;
+  let loadedCount = 0;
+  let finished = false;
 
-    function markLoaded() {
-      loadedCount += 1;
+  function finishLoading() {
+    if (finished) return;
 
-      if (!finished && loadedCount >= assetPaths.length) {
-        finished = true;
+    finished = true;
+    setAssetsLoaded(true);
+    clearInterval(phraseTimer);
+  }
 
-        setTimeout(() => {
-          setAssetsLoaded(true);
-          clearInterval(phraseTimer);
-        }, 350);
-      }
+  function markLoaded() {
+    loadedCount += 1;
+
+    if (loadedCount >= assetPaths.length) {
+      setTimeout(finishLoading, 350);
+    }
+  }
+
+  assetPaths.forEach((path) => {
+    if (!path) {
+      markLoaded();
+      return;
     }
 
-    assetPaths.forEach((path) => {
-      const img = new Image();
-      img.onload = markLoaded;
-      img.onerror = markLoaded;
-      img.src = path;
-    });
+    const img = new Image();
+    img.onload = markLoaded;
+    img.onerror = markLoaded;
+    img.src = path;
+  });
 
-    return () => {
-      finished = true;
-      clearInterval(phraseTimer);
-    };
-  }, []);
+  const failsafeTimer = setTimeout(finishLoading, 5000);
+
+  return () => {
+    finished = true;
+    clearInterval(phraseTimer);
+    clearTimeout(failsafeTimer);
+  };
+}, []);
 
   useEffect(() => {
     if (size === "112" && casters) {
@@ -265,6 +276,14 @@ const [showConfigurator, setShowConfigurator] = useState(false);
   setTimeout(() => {
     setShowConfigurator(true);
   }, 250);
+}
+
+function backToInstrumentSelection() {
+  setShowConfigurator(false);
+
+  setTimeout(() => {
+    setInstrument(null);
+  }, 300);
 }
 
 function finalizeCab() {
@@ -354,13 +373,19 @@ function finalizeCab() {
           src="/ui/buttons/bass_locked.png"
           alt="Bass Coming Soon"
         />
-        <span>Coming Soon</span>
+        <span>Bass</span>
       </div>
     </div>
   </section>
 )}
 {showConfigurator && (
   <>
+  <button
+  className="back-button"
+  onClick={backToInstrumentSelection}
+>
+  ← Change Instrument
+</button>
   <div className="product-info">
             <h1>
               {selectedSize.label} {selectedLivery.label} {selectedColorway.label}
