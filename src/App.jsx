@@ -296,8 +296,12 @@ function finalizeCab() {
     price: price.toString(),
   });
 
-  window.location.href =
-    `https://www.shrimpcabs.com/store/p/bys?${params.toString()}`;
+const checkoutUrl =
+  size === "412"
+    ? "https://www.shrimpcabs.com/store/p/bys-4x12"
+    : "https://www.shrimpcabs.com/store/p/bys";
+
+window.location.href = `${checkoutUrl}?${params.toString()}`;
 }
 
   if (!assetsLoaded) {
