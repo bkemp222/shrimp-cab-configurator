@@ -30,8 +30,8 @@ const cabSizes = [
     label: "1x12",
     base: "/base/112_base.jpg",
     button: "/ui/buttons/112.png",
-    loadedPrice: 695,
-    unloadedPrice: 595,
+    loadedPrice: 795,
+    unloadedPrice: 695,
     loadedDescription: "G12M-65 Creamback",
   },
   {
