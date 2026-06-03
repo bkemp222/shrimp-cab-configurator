@@ -357,25 +357,28 @@ function finalizeCab() {
     </h2>
 
     <div className="button-grid option-button-grid">
-      <button
-        className="image-button selected"
-        onClick={() => chooseInstrument("guitar")}
-      >
-        <img
-          src="/ui/buttons/guitar_active.png"
-          alt="Guitar"
-        />
-        <span>Guitar</span>
-      </button>
 
-      <div className="locked-icon">
-        <img
-          src="/ui/buttons/bass_locked.png"
-          alt="Bass Coming Soon"
-        />
-        <span>Bass</span>
-      </div>
-    </div>
+  <div className="locked-icon">
+    <img
+      src="/ui/buttons/bass_locked.png"
+      alt="Bass"
+    />
+    <span>Bass</span>
+  </div>
+
+  <button
+    className="image-button selected"
+    onClick={() => chooseInstrument("guitar")}
+  >
+    <img
+      src="/ui/buttons/guitar_active.png"
+      alt="Guitar"
+    />
+    <span>Guitar</span>
+  </button>
+
+</div>
+
   </section>
 )}
 {showConfigurator && (
