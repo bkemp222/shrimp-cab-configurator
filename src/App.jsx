@@ -4,6 +4,16 @@ import "./App.css";
 const EMPTY_STAGE = "/empty/stage_empty.jpg";
 const LOADING_SHRIMP = "/ui/loading/loading_shrimp.png";
 const BUILDER_LOGO = "/logo/build_your_shrimp_logo.png";
+const INSTRUMENT_SELECT = "/title/instrument_select.png";
+
+const instruments = [
+  {
+    id: "guitar",
+    label: "Guitar",
+    idleButton: "/ui/buttons/guitar_idle.png",
+    activeButton: "/ui/buttons/guitar_active.png",
+  },
+];
 
 const loadingPhrases = [
   "Cutting Tolex…",
@@ -103,11 +113,17 @@ function getAllAssetPaths() {
       });
     });
   });
+  
+  
 
   return [
     EMPTY_STAGE,
     LOADING_SHRIMP,
     BUILDER_LOGO,
+    INSTRUMENT_SELECT,
+"/ui/buttons/guitar_idle.png",
+"/ui/buttons/guitar_active.png",
+"/ui/buttons/bass_locked.png",
     "/ui/buttons/locked.png",
 
     ...cabSizes.map((item) => item.base),
@@ -137,6 +153,8 @@ function getAllAssetPaths() {
 
 export default function App() {
   const [assetsLoaded, setAssetsLoaded] = useState(false);
+  const [instrument, setInstrument] = useState(null);
+const [showConfigurator, setShowConfigurator] = useState(false);
   const [loadingPhraseIndex, setLoadingPhraseIndex] = useState(0);
 
   const [size, setSize] = useState("112");
@@ -241,6 +259,14 @@ export default function App() {
     }
   }
 
+  function chooseInstrument(nextInstrument) {
+  setInstrument(nextInstrument);
+
+  setTimeout(() => {
+    setShowConfigurator(true);
+  }, 250);
+}
+
 function finalizeCab() {
   const params = new URLSearchParams({
     cab: selectedSize.label,
@@ -284,9 +310,13 @@ function finalizeCab() {
       </div>
 
       <section className="viewer">
-        <img className="stage" src={stageImage} alt="Cab stage" />
+       <img
+  className={`stage ${showConfigurator ? "stage-fade" : ""}`}
+  src={showConfigurator ? stageImage : INSTRUMENT_SELECT}
+  alt="Cab stage"
+/>
 
-        {showOverlay && (
+        {showConfigurator && showOverlay && (
           <img
             key={overlayPath}
             className="cab-overlay"
@@ -296,173 +326,190 @@ function finalizeCab() {
         )}
       </section>
 
-      <section className="menu">
-        <div className="product-info">
-          <h1>
-            {selectedSize.label} {selectedLivery.label} {selectedColorway.label}
-          </h1>
+     <section
+  className={`menu ${
+    showConfigurator ? "menu-visible" : "menu-hidden"
+  }`}
 
-          <div className="price">${price.toLocaleString()}</div>
+>{!showConfigurator && (
+  <section className="option-group">
+    <h2>
+      <span>Choose Your Instrument</span>
+    </h2>
 
-          <div className="spec-row">
-            <span>{speaker === "loaded" ? "Loaded" : "Unloaded"}</span>
-            <span>{speaker === "loaded" ? selectedSize.loadedDescription : "Speaker Ready"}</span>
-            <span>{casters && size !== "112" ? "Casters Added" : "Made in Georgia"}</span>
-          </div>
-        </div>
+    <div className="button-grid option-button-grid">
+      <button
+        className="image-button selected"
+        onClick={() => chooseInstrument("guitar")}
+      >
+        <img
+          src="/ui/buttons/guitar_active.png"
+          alt="Guitar"
+        />
+        <span>Guitar</span>
+      </button>
 
-        <section className="option-group">
-          <h2><span>Cab Size</span></h2>
+      <div className="locked-icon">
+        <img
+          src="/ui/buttons/bass_locked.png"
+          alt="Bass Coming Soon"
+        />
+        <span>Coming Soon</span>
+      </div>
+    </div>
+  </section>
+)}
+{showConfigurator && (
+  <>
+  <div className="product-info">
+            <h1>
+              {selectedSize.label} {selectedLivery.label} {selectedColorway.label}
+            </h1>
 
-          <div className="scroll-row">
-            <div className="scroll-arrow left">‹</div>
+            <div className="price">${price.toLocaleString()}</div>
 
-            <div className="button-grid">
-              {cabSizes.map((item) => (
-                <button
-                  key={item.id}
-                  className={`image-button ${size === item.id ? "selected" : ""}`}
-                  onClick={() => chooseSize(item.id)}
-                >
-                  <img src={item.button} alt={item.label} />
-                  <span>
-                    {item.label} — $
-                    {(speaker === "loaded"
-                      ? item.loadedPrice
-                      : item.unloadedPrice
-                    ).toLocaleString()}
-                  </span>
-                </button>
-              ))}
+            <div className="spec-row">
+              <span>{speaker === "loaded" ? "Loaded" : "Unloaded"}</span>
+              <span>{speaker === "loaded" ? selectedSize.loadedDescription : "Speaker Ready"}</span>
+              <span>{casters && size !== "112" ? "Casters Added" : "Made in Georgia"}</span>
             </div>
+          </div><section className="option-group">
+              <h2><span>Cab Size</span></h2>
 
-            <div className="scroll-arrow right">›</div>
-          </div>
-        </section>
+              <div className="scroll-row">
+                <div className="scroll-arrow left">‹</div>
 
-        <section className="option-group">
-          <h2><span>Livery</span></h2>
+                <div className="button-grid">
+                  {cabSizes.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`image-button ${size === item.id ? "selected" : ""}`}
+                      onClick={() => chooseSize(item.id)}
+                    >
+                      <img src={item.button} alt={item.label} />
+                      <span>
+                        {item.label} — $
+                        {(speaker === "loaded"
+                          ? item.loadedPrice
+                          : item.unloadedPrice
+                        ).toLocaleString()}
+                      </span>
+                    </button>
+                  ))}
+                </div>
 
-          <div className="scroll-row">
-            <div className="scroll-arrow left">‹</div>
-
-            <div className="button-grid">
-              {liveries.map((item) => (
-                <button
-                  key={item.id}
-                  className={`image-button ${livery === item.id ? "selected" : ""}`}
-                  onClick={() => chooseLivery(item.id)}
-                >
-                  <img src={buttonPath(item.id, livery === item.id)} alt={item.label} />
-                  <span>{item.label}</span>
-                </button>
-              ))}
-
-              <div className="locked-icon">
-                <img src="/ui/buttons/locked.png" alt="Locked" />
-                <span>Coming Soon</span>
+                <div className="scroll-arrow right">›</div>
               </div>
-            </div>
+            </section><section className="option-group">
+              <h2><span>Livery</span></h2>
 
-            <div className="scroll-arrow right">›</div>
-          </div>
-        </section>
+              <div className="scroll-row">
+                <div className="scroll-arrow left">‹</div>
 
-        <section className="option-group">
-          <h2><span>Colorway</span></h2>
+                <div className="button-grid">
+                  {liveries.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`image-button ${livery === item.id ? "selected" : ""}`}
+                      onClick={() => chooseLivery(item.id)}
+                    >
+                      <img src={buttonPath(item.id, livery === item.id)} alt={item.label} />
+                      <span>{item.label}</span>
+                    </button>
+                  ))}
 
-          <div className="scroll-row">
-            <div className="scroll-arrow left">‹</div>
+                  <div className="locked-icon">
+                    <img src="/ui/buttons/locked.png" alt="Locked" />
+                    <span>Coming Soon</span>
+                  </div>
+                </div>
 
-            <div className="button-grid">
-              {validColorways.map((item) => (
-                <button
-                  key={item.id}
-                  className={`image-button ${colorway === item.id ? "selected" : ""}`}
-                  onClick={() => setColorway(item.id)}
-                >
-                  <img src={buttonPath(item.id, colorway === item.id)} alt={item.label} />
-                  <span>{item.label}</span>
-                </button>
-              ))}
-
-              <div className="locked-icon">
-                <img src="/ui/buttons/locked.png" alt="Locked" />
-                <span>Coming Soon</span>
+                <div className="scroll-arrow right">›</div>
               </div>
-            </div>
+            </section><section className="option-group">
+              <h2><span>Colorway</span></h2>
 
-            <div className="scroll-arrow right">›</div>
-          </div>
-        </section>
+              <div className="scroll-row">
+                <div className="scroll-arrow left">‹</div>
 
-        <section className="option-group">
-          <h2><span>Speaker</span></h2>
+                <div className="button-grid">
+                  {validColorways.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`image-button ${colorway === item.id ? "selected" : ""}`}
+                      onClick={() => setColorway(item.id)}
+                    >
+                      <img src={buttonPath(item.id, colorway === item.id)} alt={item.label} />
+                      <span>{item.label}</span>
+                    </button>
+                  ))}
 
-          <div className="scroll-row">
-            <div className="scroll-arrow left">‹</div>
+                  <div className="locked-icon">
+                    <img src="/ui/buttons/locked.png" alt="Locked" />
+                    <span>Coming Soon</span>
+                  </div>
+                </div>
 
-            <div className="button-grid option-button-grid">
-              {speakerOptions.map((item) => (
-                <button
-                  key={item.id}
-                  className={`image-button ${speaker === item.id ? "selected" : ""}`}
-                  onClick={() => setSpeaker(item.id)}
-                >
-                  <img
-                    src={speaker === item.id ? item.activeButton : item.idleButton}
-                    alt={item.label}
-                  />
-                  <span>
-                    {item.label} — $
-                    {(item.id === "loaded"
-                      ? selectedSize.loadedPrice
-                      : selectedSize.unloadedPrice
-                    ).toLocaleString()}
-                  </span>
-                </button>
-              ))}
-            </div>
+                <div className="scroll-arrow right">›</div>
+              </div>
+            </section><section className="option-group">
+              <h2><span>Speaker</span></h2>
 
-            <div className="scroll-arrow right">›</div>
-          </div>
-        </section>
+              <div className="scroll-row">
+                <div className="scroll-arrow left">‹</div>
 
-        <section className="option-group">
-          <h2><span>Caster Option</span></h2>
+                <div className="button-grid option-button-grid">
+                  {speakerOptions.map((item) => (
+                    <button
+                      key={item.id}
+                      className={`image-button ${speaker === item.id ? "selected" : ""}`}
+                      onClick={() => setSpeaker(item.id)}
+                    >
+                      <img
+                        src={speaker === item.id ? item.activeButton : item.idleButton}
+                        alt={item.label} />
+                      <span>
+                        {item.label} — $
+                        {(item.id === "loaded"
+                          ? selectedSize.loadedPrice
+                          : selectedSize.unloadedPrice
+                        ).toLocaleString()}
+                      </span>
+                    </button>
+                  ))}
+                </div>
 
-          <div className="scroll-row">
-            <div className="scroll-arrow left">‹</div>
+                <div className="scroll-arrow right">›</div>
+              </div>
+            </section><section className="option-group">
+              <h2><span>Caster Option</span></h2>
 
-            <div className="button-grid option-button-grid">
-              <button
-                className={`image-button ${casters && size !== "112" ? "selected" : ""} ${
-                  size === "112" ? "disabled-option" : ""
-                }`}
-                disabled={size === "112"}
-                onClick={() => setCasters((current) => !current)}
-              >
-                <img
-                  src={
-                    casters && size !== "112"
-                      ? casterOption.activeButton
-                      : casterOption.idleButton
-                  }
-                  alt={casterOption.label}
-                />
-                <span>
-                  {size === "112" ? "2x12 / 4x12 Only" : "Casters — +$100"}
-                </span>
-              </button>
-            </div>
+              <div className="scroll-row">
+                <div className="scroll-arrow left">‹</div>
 
-            <div className="scroll-arrow right">›</div>
-          </div>
-        </section>
+                <div className="button-grid option-button-grid">
+                  <button
+                    className={`image-button ${casters && size !== "112" ? "selected" : ""} ${size === "112" ? "disabled-option" : ""}`}
+                    disabled={size === "112"}
+                    onClick={() => setCasters((current) => !current)}
+                  >
+                    <img
+                      src={casters && size !== "112"
+                        ? casterOption.activeButton
+                        : casterOption.idleButton}
+                      alt={casterOption.label} />
+                    <span>
+                      {size === "112" ? "2x12 / 4x12 Only" : "Casters — +$100"}
+                    </span>
+                  </button>
+                </div>
 
-        <button className="finalize" onClick={finalizeCab}>
-          Go to Checkout
-        </button>
+                <div className="scroll-arrow right">›</div>
+              </div>
+            </section><button className="finalize" onClick={finalizeCab}>
+              Go to Checkout
+            </button>  </>
+)}
 
         {cart.length > 0 && (
           <section className="cart">
