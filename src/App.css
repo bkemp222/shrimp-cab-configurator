@@ -17,6 +17,16 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.product-info,
+.product-info h1,
+.price,
+.option-group h2,
+.image-button span,
+.locked-icon span,
+.spec-row span {
+  color: #111;
+}
+
 button,
 input,
 select,
