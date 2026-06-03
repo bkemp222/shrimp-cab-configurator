@@ -33,7 +33,7 @@ body {
 }
 
 .loading-shrimp {
-  width: min(80px, 32vw);
+  width: min(40px, 32vw);
   height: auto;
   display: block;
   margin: 0 auto 20px;
