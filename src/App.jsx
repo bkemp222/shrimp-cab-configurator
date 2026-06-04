@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import "./App.css";
 
 const EMPTY_STAGE = "/empty/stage_empty.jpg";
@@ -336,6 +337,7 @@ window.location.href = `${checkoutUrl}?${params.toString()}`;
   }
 
   return (
+    <>
     <main className="app">
       <div className="builder-logo">
         <img src={BUILDER_LOGO} alt="Build Your Shrimp" />
@@ -577,5 +579,7 @@ window.location.href = `${checkoutUrl}?${params.toString()}`;
         )}
   </section>
     </main>
+    <Analytics />
+    </>
   );
 }
