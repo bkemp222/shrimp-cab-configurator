@@ -28,6 +28,9 @@ const cabSizes = [
   {
     id: "112",
     label: "1x12",
+    dimensions: '20" H x 22" W x 12" D',
+    impedance: "8 Ohms",
+watts: "65 Watts",
     base: "/base/112_base.jpg",
     button: "/ui/buttons/112.png",
     loadedPrice: 795,
@@ -37,6 +40,9 @@ const cabSizes = [
   {
     id: "212",
     label: "2x12",
+    dimensions: '22" H x 30" W x 12" D',
+    impedance: "8 Ohms",
+watts: "130 Watts",
     base: "/base/212_base.jpg",
     button: "/ui/buttons/212.png",
     loadedPrice: 1095,
@@ -46,6 +52,9 @@ const cabSizes = [
   {
     id: "412",
     label: "4x12",
+    dimensions: '34" H x 30" W x 14" D',
+    impedance: "16 Ohms",
+watts: "250 Watts",
     base: "/base/412_base.jpg",
     button: "/ui/buttons/412.png",
     loadedPrice: 1595,
@@ -397,14 +406,17 @@ window.location.href = `${checkoutUrl}?${params.toString()}`;
             <h1>
               {selectedSize.label} {selectedLivery.label} {selectedColorway.label}
             </h1>
+            <div className="cab-dimensions">
+  {selectedSize.dimensions}
+</div>
 
             <div className="price">${price.toLocaleString()}</div>
 
             <div className="spec-row">
-              <span>{speaker === "loaded" ? "Loaded" : "Unloaded"}</span>
-              <span>{speaker === "loaded" ? selectedSize.loadedDescription : "Speaker Ready"}</span>
-              <span>{casters && size !== "112" ? "Casters Added" : "Made in Georgia"}</span>
-            </div>
+  <span>{selectedSize.impedance}</span>
+  <span>{speaker === "loaded" ? selectedSize.loadedDescription : "Speaker Ready"}</span>
+  <span>{speaker === "loaded" ? selectedSize.watts : "Unloaded"}</span>
+</div>
           </div><section className="option-group">
               <h2><span>Cab Size</span></h2>
 
