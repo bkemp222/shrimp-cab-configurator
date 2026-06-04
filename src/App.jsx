@@ -417,6 +417,7 @@ window.location.href = `${checkoutUrl}?${params.toString()}`;
   <span>{speaker === "loaded" ? selectedSize.loadedDescription : "Speaker Ready"}</span>
   <span>{speaker === "loaded" ? selectedSize.watts : "Unloaded"}</span>
 </div>
+
 <div className="spec-row">
   <span>Standard Black Grill Cloth + Hardware</span>
 </div>
