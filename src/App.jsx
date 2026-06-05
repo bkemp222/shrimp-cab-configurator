@@ -21,7 +21,9 @@ const loadingPhrases = [
   "Spilling Glue…",
   "Looking for pencil…",
   "Reticulating Splines…",
-  "Drinking Coffee…",
+  "Drinking Coffee…"
+  "Checking Analytics..."
+  "Playing Cab Grab...",
 ];
 
 const cabSizes = [
