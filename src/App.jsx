@@ -72,7 +72,7 @@ const liveries = [
 const colorways = [
   { id: "bigcat", label: "Big Cat", liveries: ["tiger", "nitro"] },
   { id: "badkitty", label: "Bad Kitty", liveries: ["tiger", "nitro"] },
-  { id: "miami", label: "Miami", liveries: ["tiger", "nitro"] },
+  { id: "miami", label: "Miami", liveries: ["tiger", "nitro", "shock"] },
   { id: "dig", label: "Digger", liveries: ["tiger", "nitro"] },
   { id: "mania", label: "Mania", liveries: ["tiger", "nitro"] },
   { id: "marley", label: "Irie", liveries: ["shock"] },
