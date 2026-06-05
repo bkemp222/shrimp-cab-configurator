@@ -203,7 +203,7 @@ const [showConfigurator, setShowConfigurator] = useState(false);
 useEffect(() => {
   const phraseTimer = setInterval(() => {
     setLoadingPhraseIndex((current) => (current + 1) % loadingPhrases.length);
-  }, 900);
+  }, 1200);
 
   const assetPaths = [...new Set(getAllAssetPaths())];
 
