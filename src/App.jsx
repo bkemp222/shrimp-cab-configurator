@@ -77,6 +77,7 @@ const colorways = [
   { id: "mania", label: "Mania", liveries: ["tiger", "nitro"] },
   { id: "marley", label: "Irie", liveries: ["shock"] },
   { id: "grateful", label: "Grateful", liveries: ["shock"] },
+  { id: "skunk", label: "Skunk", liveries: ["tiger", "nitro"] },
 ];
 
 const speakerOptions = [
