@@ -21,8 +21,8 @@ const loadingPhrases = [
   "Spilling Glue…",
   "Looking for pencil…",
   "Reticulating Splines…",
-  "Drinking Coffee…"
-  "Checking Analytics..."
+  "Drinking Coffee…",
+  "Checking Analytics...",
   "Playing Cab Grab...",
 ];
 
