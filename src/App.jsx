@@ -74,10 +74,10 @@ const colorways = [
   { id: "badkitty", label: "Bad Kitty", liveries: ["tiger", "nitro", "shock"] },
   { id: "miami", label: "Miami", liveries: ["tiger", "nitro", "shock"] },
   { id: "dig", label: "Digger", liveries: ["tiger", "nitro", "shock"] },
-  { id: "mania", label: "Mania", liveries: ["tiger", "nitro"] },
+  { id: "mania", label: "Mania", liveries: ["tiger", "nitro", "shock"] },
   { id: "marley", label: "Irie", liveries: ["shock"] },
   { id: "grateful", label: "Grateful", liveries: ["shock"] },
-  { id: "skunk", label: "Skunk", liveries: ["tiger", "nitro"] },
+  { id: "skunk", label: "Skunk", liveries: ["tiger", "nitro", "shock"] },
 ];
 
 const speakerOptions = [
