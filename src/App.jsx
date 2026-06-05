@@ -333,6 +333,11 @@ window.location.href = `${checkoutUrl}?${params.toString()}`;
           <div className="loading-bar">
             <div className="loading-bar-fill" />
           </div>
+
+          <div className="loading-note">
+  This may take a few moments depending on your connection...
+</div>
+
         </div>
       </main>
     );
