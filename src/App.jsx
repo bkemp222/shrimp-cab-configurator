@@ -77,9 +77,9 @@ const colorways = [
   { id: "miami", label: "Miami", liveries: ["tiger", "nitro", "shock"] },
   { id: "dig", label: "Digger", liveries: ["tiger", "nitro", "shock"] },
   { id: "mania", label: "Mania", liveries: ["tiger", "nitro", "shock"] },
+  { id: "skunk", label: "Skunk", liveries: ["tiger", "nitro", "shock"] },
   { id: "marley", label: "Irie", liveries: ["shock"] },
   { id: "grateful", label: "Grateful", liveries: ["shock"] },
-  { id: "skunk", label: "Skunk", liveries: ["tiger", "nitro", "shock"] },
 ];
 
 const speakerOptions = [
